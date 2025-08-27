@@ -1,3 +1,4 @@
+import { useAppServers } from "@/app/context/ServerContext";
 import { globalStyles } from "@/app/styles";
 import { ServerType } from "@/interfaces";
 import { useState } from "react";
@@ -10,6 +11,9 @@ type ServerSettingsModalProps = {
 }
 
 export default function ServerSettingsModal ({serverData} : ServerSettingsModalProps) {
+    // Server setup
+    // Get server context
+    const { deleteServer, updateServer } = useAppServers();
 
     const [server, setServer] = useState<ServerType>({
         name: serverData.name,
@@ -19,6 +23,16 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
     });
 
     const { closeModal } = useAppModal();
+
+    const handleDelete = () => {
+        deleteServer(serverData); //might need to use state server but for now I think this works fine
+        closeModal();
+    }
+
+    const handleSave = () => {
+        updateServer(server);
+        closeModal();
+    }
     
     const handleChange = <K extends keyof typeof server>(
         key: K,
@@ -73,8 +87,9 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
 
             <ButtonComponent text="Save"
                 style= { { marginTop: 16 } }
+                pressFunction={handleSave}
             />
-            <ButtonComponent text="Delete" pressFunction={closeModal} 
+            <ButtonComponent text="Delete" pressFunction={handleDelete} 
                 style= { { 
                     marginTop: 16,
                     backgroundColor: '#963a3a',

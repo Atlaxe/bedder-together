@@ -3,6 +3,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ImageBackground, SafeAreaView, StyleSheet } from "react-native";
 import { ModalProvider } from "./context/ModalContext";
+import { ServerProvider } from "./context/ServerContext";
 
 export default function RootLayout() {
 
@@ -14,32 +15,34 @@ export default function RootLayout() {
   }
 
   return (
-    <ModalProvider>
-      <ImageBackground 
-        source={require("@/assets/images/Minecraft Background.png")} 
-        style={styles.background}
-        imageStyle={styles.image}
-      >
-        <SafeAreaView style={styles.container}>
-          <StatusBar style="light" />
-          <Stack 
-            screenOptions={{
-              headerShown: false,
-              contentStyle: {
-                backgroundColor: 'transparent'
-              }
-            }}
-          >
-            <Stack.Screen 
-              name="index" 
-              options={{ title: "Home" }} 
-              
-            />
-            <Stack.Screen name="+not-found" />
-          </Stack> 
-        </SafeAreaView>
-      </ImageBackground>
-    </ModalProvider>
+    <ServerProvider>
+      <ModalProvider>
+        <ImageBackground 
+          source={require("@/assets/images/Minecraft Background.png")} 
+          style={styles.background}
+          imageStyle={styles.image}
+        >
+          <SafeAreaView style={styles.container}>
+            <StatusBar style="light" />
+            <Stack 
+              screenOptions={{
+                headerShown: false,
+                contentStyle: {
+                  backgroundColor: 'transparent'
+                }
+              }}
+            >
+              <Stack.Screen 
+                name="index" 
+                options={{ title: "Home" }} 
+                
+              />
+              <Stack.Screen name="+not-found" />
+            </Stack> 
+          </SafeAreaView>
+        </ImageBackground>
+      </ModalProvider>
+    </ServerProvider>
   );
 }
 
