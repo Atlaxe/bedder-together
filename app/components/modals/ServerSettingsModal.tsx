@@ -49,7 +49,10 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
             port &&
             ( ip || web)
         ) {
-            updateServer(server);
+            updateServer({
+                ...server,
+                name: server.name ? server.name : serverData.name
+            });
             closeModal();
         }
     }
@@ -64,19 +67,9 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
         }));
     };
 
-    // need the following
-
-    // EDIT
-    // change name
-    // change ip
-    // change port
-    // favorite?
-
-    // DELETE
-
     return (
         <View style={styles.container}>
-            <Text style={[globalStyles.minecraftText, globalStyles.header]}>Edit {server.name}</Text>
+            <Text style={[globalStyles.minecraftText, globalStyles.header]}>Edit Server</Text>
             <TextInput 
                 style={styles.textInput}
                 value = {server.name}

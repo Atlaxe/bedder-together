@@ -15,8 +15,7 @@ I mainly made this because I wanted to become a better developer
 <!-- Notes to do for Servers and Connecting -->
 
 AddServer, EditServer modals:
--need a context and hooks for editing, adding, deleting servers
--Need to make sure that Name, Ip, Port all have values
+-Need to make sure that Name all have values
 
 Server Context and Hooks:
 -When app starts up get information for certain items like server pack.png, MOTD, playercount, and ping

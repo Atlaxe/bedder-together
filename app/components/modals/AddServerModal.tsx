@@ -50,7 +50,10 @@ export default function AddServerModal () {
             port &&
             ( ip || web)
         ) {
-            addServer(server);
+            addServer({
+                ...server,
+                name: server.name ? server.name : "Server"
+            });
             closeModal();
         }
     }
