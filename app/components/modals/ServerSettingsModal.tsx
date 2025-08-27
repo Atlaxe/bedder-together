@@ -32,8 +32,6 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
     }
 
     const handleSave = () => {
-        // Validate port
-        
         const port = isPort(server.port);
         setValidPort(port);
 

@@ -8,7 +8,7 @@ import { ServerProvider } from "./context/ServerContext";
 export default function RootLayout() {
 
   const [fontsLoaded] = useFonts({
-      Minecraft: require("@/assets/fonts/mojangles.ttf")
+      Minecraft: require("@/assets/fonts/Minecraftia.ttf")
   })
   if ( !fontsLoaded ) {
       console.log("Fonts weren't loaded")

@@ -38,9 +38,9 @@ export default function ServerCard ({server} : ServerCardProps ) {
             <View style={styles.serverInfo}>
                 <View style={[globalStyles.row, {justifyContent: 'space-between'}]}>
                     <Text style = {globalStyles.minecraftText}>{server.name}</Text>
-                    <Text style = {globalStyles.minecraftText}>{server.currentPlayerCount ? server.currentPlayerCount : '0'} / {server.totalPlayerCount ? server.totalPlayerCount : '0'}</Text>
+                    <Text style = {globalStyles.minecraftText}>{server.currentPlayerCount ? server.currentPlayerCount : '0'}/{server.totalPlayerCount ? server.totalPlayerCount : '0'}</Text>
                 </View>
-                <Text style= {[globalStyles.minecraftText, {color: "#f4f4f4", fontSize: 14}]}>Servival   Oneblock    Dungeons</Text>
+                <Text style= {[globalStyles.minecraftText, {color: "hsla(0, 0%, 76%, 1.00)", fontSize: 14}]}>Servival   Oneblock    Dungeons</Text>
             </View>
             
             <Pressable 

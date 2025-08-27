@@ -28,7 +28,7 @@ export function ServerProvider ( { children } :  { children : React.ReactNode } 
     // Save servers on every change
     useEffect( () => {
         saveData("Stored_Servers", servers)
-        console.log(`Saved Serves : ${servers}`)
+        console.log(`Saved Serverss : ${servers}`)
     }, [servers])
 
     const addServer = async ( server : Omit<ServerType, "key"> ) => {

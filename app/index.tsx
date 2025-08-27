@@ -35,5 +35,6 @@ const styles = StyleSheet.create({
         gap: 32
     },
     flatList: {
+        height: '100%'
     }
 })
