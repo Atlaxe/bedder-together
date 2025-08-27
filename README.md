@@ -1,50 +1,63 @@
-# Welcome to your Expo app 👋
+# Bedder Together
+A pun on playing minecraft is better together for bedrock.
+I mainly made this because I wanted to become a better developer
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## TO-DO
+-Servers
+--Add Servers (Favorite)                                                B
+--Server list (featured?)                                               B
 
-## Get started
+-Connecting
+--Connect to server from phone                                          A
+--Share port on network from phone                                      A
+--Auto connect features for servers (Icon, text, player count)          B
 
-1. Install dependencies
+<!-- Notes to do for Servers and Connecting -->
 
-   ```bash
-   npm install
-   ```
+AddServer, EditServer modals:
+-need a context and hooks for editing, adding, deleting servers
+-Need to make sure that Name, Ip, Port all have values
 
-2. Start the app
+Server Context and Hooks:
+-When app starts up get information for certain items like server pack.png, MOTD, playercount, and ping
 
-   ```bash
-   npx expo start
-   ```
+ProxyModal:
+-First need modal that shows up asking player to setup connection for {server}
+-When proceeding need to set up a context and hooks that set up proxy
+    -Can only close the modal when ending the proxy, as to only have one proxy at a time
 
-In the output, you'll find options to open the app in a
+Proxy:
+-Close proxy 15 minutes after not being used, if app is in background state, need more research on this honestly
+-Show notification card for proxy?
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
 
-When you're ready, run:
 
-```bash
-npm run reset-project
-```
+-UI                                                                     B
+--I think UI should be done like the server-ui.png. Make it bedrock themed,
+   should include (Search server, refres, new server button)
+--details to have (Server name, splash text, ping, playercount, icon) and operations (delete, edit, join)
+---*Note join can be done by icon or just touching on it*
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+-Monetize                                                               C
+--Phase 1:
+---No monetization, if the app is still owned for over a week, ask for a review
+--Phase 2:
+---After a couple months set up one time payment of 3.99
+---Can share with one friend for a month
+--Phase 3:
+---Not set in stone, but potentially easily accessible server hosting for people
+----would need to inculde the following (payments, server management, card details) - will probably need to redirect to 
+    a website though for this to avoid having to give apple commission
 
-## Learn more
+-Analytics Corresponds with monetization
+--Phase 1:
+---Probably don't really need this for now, and will probably mainly just use app store data. Can store analytics I want to track in the future in the app state.
+--Phase 2:
+---Will need to research and look into this, basically we want to capture certain analytics if apple doesn't do it for us
+--Phase 3:
+---yeah... more research needed, partner?
 
-To learn more about developing your project with Expo, look at the following resources:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
