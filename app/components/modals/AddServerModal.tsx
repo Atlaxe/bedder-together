@@ -2,10 +2,10 @@ import { useAppServers } from "@/app/context/ServerContext";
 import { ServerType } from "@/interfaces";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { isFQDN, isIP, isPort } from "validator";
 import { useAppModal } from "../../context/ModalContext";
 import { globalStyles } from "../../styles";
 import ButtonComponent from "../ButtonComponent";
-
 
 export default function AddServerModal () {
     const { addServer} = useAppServers();
@@ -16,6 +16,10 @@ export default function AddServerModal () {
         port: "19132",
         key: ""
     });
+
+    // For error logging
+    const [ validPort, setValidPort ] = useState(true);
+    const [ validIP, setValidIP] = useState(true);
 
     const { closeModal } = useAppModal();
     
@@ -30,14 +34,31 @@ export default function AddServerModal () {
     };
 
     const handleAdd = () => {
-        addServer(server);
-        closeModal();
-        // no need to reset server state because it's rerendered on modal open
+        // Validate port
+        const port = isPort(server.port);
+        setValidPort(port);
+
+        const ip = isIP(server.ipaddress);
+        const web = isFQDN(server.ipaddress);
+        if (!ip && !web) {
+            setValidIP(false)
+        } else {
+            setValidIP(true)
+        }
+
+        if (
+            port &&
+            ( ip || web)
+        ) {
+            addServer(server);
+            closeModal();
+        }
     }
 
     return (
         <View style={styles.container}>
             <Text style={[globalStyles.minecraftText, globalStyles.header]}>Add Server</Text>
+           
             <TextInput 
                 style={styles.textInput}
                 value = {server.name}
@@ -47,25 +68,40 @@ export default function AddServerModal () {
             />
             <View style={globalStyles.row}>
                 <TextInput 
-                    style={[styles.textInput, styles.ip]}
+                    style={[
+                        styles.textInput, 
+                        styles.ip,
+                        !validIP && styles.warningBorders
+                    ]}
                     value = {server.ipaddress}
                     onChangeText={(text) => handleChange("ipaddress", text)}
-                    keyboardType="numeric"
                     placeholder="IP Address"
                     placeholderTextColor={'#ffffff80'}
                 />
                 <TextInput 
-                    style={[[styles.textInput, {
-                        flex: 1 / 4
-                    }]]}
+                    style={[[
+                        styles.textInput, 
+                        { flex: 1 / 4 },
+                        !validPort && styles.warningBorders
+                    ]]}
                     value = {server.port}
                     onChangeText={(text) => handleChange("port", text)}
                     keyboardType="numeric"
                     placeholder="Port"
                     placeholderTextColor={'#ffffff80'}
                 />
-
             </View>
+
+            {/* Error message here */}
+             { (!validPort || !validIP) && (
+                <Text style={[globalStyles.minecraftText]}>
+                    Please&nbsp;
+                    { !validIP && 'input a valid IP address'}
+                    { ( !validIP && !validPort) && ' and '}
+                    { !validPort && 'input a valid port number'}
+                    .
+                </Text>
+            ) }
             
             <ButtonComponent text="Add" pressFunction={handleAdd}
                 style= { { marginTop: 16 } }
@@ -91,9 +127,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
     },
-
-    
-
+    warningBorders : {
+        borderTopColor: '#d4b760',
+        borderLeftColor: '#d4b760',
+        borderBottomColor: '#c5aa5a',
+        borderRightColor: '#c5aa5a'
+    },
     textInput: {
         padding: 10,
 

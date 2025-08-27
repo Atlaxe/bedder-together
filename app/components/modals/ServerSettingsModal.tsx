@@ -3,6 +3,7 @@ import { globalStyles } from "@/app/styles";
 import { ServerType } from "@/interfaces";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { isFQDN, isIP, isPort } from "validator";
 import { useAppModal } from "../../context/ModalContext";
 import ButtonComponent from "../ButtonComponent";
 
@@ -11,6 +12,7 @@ type ServerSettingsModalProps = {
 }
 
 export default function ServerSettingsModal ({serverData} : ServerSettingsModalProps) {
+    const { closeModal } = useAppModal();
     // Server setup
     // Get server context
     const { deleteServer, updateServer } = useAppServers();
@@ -21,8 +23,8 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
         port: serverData.port,
         key: serverData.key
     });
-
-    const { closeModal } = useAppModal();
+    const [ validPort, setValidPort ] = useState(true);
+    const [ validIP, setValidIP] = useState(true);
 
     const handleDelete = () => {
         deleteServer(serverData); //might need to use state server but for now I think this works fine
@@ -30,8 +32,26 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
     }
 
     const handleSave = () => {
-        updateServer(server);
-        closeModal();
+        // Validate port
+        
+        const port = isPort(server.port);
+        setValidPort(port);
+
+        const ip = isIP(server.ipaddress);
+        const web = isFQDN(server.ipaddress);
+        if (!ip && !web) {
+            setValidIP(false)
+        } else {
+            setValidIP(true)
+        }
+
+        if (
+            port &&
+            ( ip || web)
+        ) {
+            updateServer(server);
+            closeModal();
+        }
     }
     
     const handleChange = <K extends keyof typeof server>(
@@ -66,17 +86,22 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
             />
             <View style={globalStyles.row}>
                 <TextInput 
-                    style={[styles.textInput, styles.ip]}
+                    style={[
+                        styles.textInput, 
+                        styles.ip,
+                        !validIP && styles.warningBorders
+                    ]}
                     value = {server.ipaddress}
                     onChangeText={(text) => handleChange("ipaddress", text)}
-                    keyboardType="numeric"
                     placeholder="IP Address"
                     placeholderTextColor={'#ffffff80'}
                 />
                 <TextInput 
-                    style={[[styles.textInput, {
-                        flex: 1 / 4
-                    }]]}
+                    style={[[
+                        styles.textInput, 
+                        { flex: 1 / 4 },
+                        !validPort && styles.warningBorders
+                    ]]}
                     value = {server.port}
                     onChangeText={(text) => handleChange("port", text)}
                     keyboardType="numeric"
@@ -84,6 +109,17 @@ export default function ServerSettingsModal ({serverData} : ServerSettingsModalP
                     placeholderTextColor={'#ffffff80'}
                 />
             </View>
+
+            {/* Error message here */}
+             { (!validPort || !validIP) && (
+                <Text style={[globalStyles.minecraftText]}>
+                    Please&nbsp;
+                    { !validIP && 'input a valid IP address'}
+                    { ( !validIP && !validPort) && ' and '}
+                    { !validPort && 'input a valid port number'}
+                    .
+                </Text>
+            ) }
 
             <ButtonComponent text="Save"
                 style= { { marginTop: 16 } }
@@ -120,7 +156,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center'
     },
-
+    warningBorders : {
+        borderTopColor: '#d4b760',
+        borderLeftColor: '#d4b760',
+        borderBottomColor: '#c5aa5a',
+        borderRightColor: '#c5aa5a'
+    },
     textInput: {
         padding: 10,
 
