@@ -54,7 +54,6 @@ export function ServerProvider ( { children } :  { children : React.ReactNode } 
         console.log(`Updating server : ${server.name} key - ${server.key}`)
         let newServers : ServerType[] = servers.map( s => s.key == server.key ? server : s);
         setServers(newServers);
-
     }
 
     return (

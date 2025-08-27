@@ -1,4 +1,5 @@
-import { AddServerProps, ServerType } from "@/interfaces";
+import { useAppServers } from "@/app/context/ServerContext";
+import { ServerType } from "@/interfaces";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useAppModal } from "../../context/ModalContext";
@@ -6,11 +7,13 @@ import { globalStyles } from "../../styles";
 import ButtonComponent from "../ButtonComponent";
 
 
-export default function AddServerModal ({addServerFunc} : AddServerProps) {
+export default function AddServerModal () {
+    const { addServer} = useAppServers();
+
     const [server, setServer] = useState<ServerType>({
         name: "Minecraft Server",
         ipaddress: "",
-        port: "",
+        port: "19132",
         key: ""
     });
 
@@ -26,8 +29,8 @@ export default function AddServerModal ({addServerFunc} : AddServerProps) {
         }));
     };
 
-    const addServer = () => {
-        addServerFunc(server);
+    const handleAdd = () => {
+        addServer(server);
         closeModal();
         // no need to reset server state because it's rerendered on modal open
     }
@@ -64,7 +67,7 @@ export default function AddServerModal ({addServerFunc} : AddServerProps) {
 
             </View>
             
-            <ButtonComponent text="Add" pressFunction={addServer}
+            <ButtonComponent text="Add" pressFunction={handleAdd}
                 style= { { marginTop: 16 } }
             />
             <ButtonComponent text="Cancel" pressFunction={closeModal} 

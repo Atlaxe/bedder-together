@@ -9,13 +9,13 @@ import { useAppServers } from "./context/ServerContext"
 export default function HomeScreen() {
 
     // Setting up servers
-    const { servers, addServer } = useAppServers();
+    const { servers } = useAppServers();
     // For uusing modals like adding server and server config
     const { openModal} = useAppModal();
 
     return (
         <View style= {styles.container}>
-            <ButtonComponent text="Add Server" pressFunction={() => {openModal(<AddServerModal addServerFunc={addServer} />)}}/>
+            <ButtonComponent text="Add Server" pressFunction={() => {openModal(<AddServerModal />)}}/>
             <FlatList
                 style={styles.flatList}
                 data={servers}
